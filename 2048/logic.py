@@ -1,11 +1,11 @@
 import random
 
-
 def start_game():
     mat = []
     for i in range(4):
         mat.append([0] * 4)
-    
+
+
     print("Commands are as follows: ")
     print("'W' or 'w' : Move Up")
     print("'S' or 's' : Move Down")
@@ -13,6 +13,10 @@ def start_game():
     print("'D' or 'd' : Move Right")
 
     add_new_2(mat)   
+
+    for i in mat:
+        print(i)
+    
     return mat
 
 def add_new_2(mat):
@@ -45,7 +49,6 @@ def get_current_state(mat):
         if mat[i][3] == mat[i+1][3]:
             return 'GAME NOT OVER'
     return 'LOST'
-
 
 def compress(mat):
     changed = False
@@ -101,17 +104,26 @@ def move_left(grid):
 
     changed = changed1 or changed2
 
-    new_grid = compress(new_grid)
+    new_grid, temp = compress(new_grid)
 
     return new_grid, changed
 
+def move_right(grid):
+    new_grid = reverse(grid)
+    new_grid, changed = move_left(new_grid)
+    new_grid = reverse(new_grid)
+    return new_grid, changed
 
-new_mat = [[2,2,0,0],[2,2,0,0],[2,2,0,0],[2,2,0,0]]
-# print(reverse(new_mat))
-print(new_mat)
-print(transpose(new_mat))
-# print(new_mat)
-# print(merge(new_mat))
-print(compress(start_game()))
+def move_up(grid):
+    new_grid = transpose(grid)
+    new_grid, changed = move_left(new_grid)
+    new_grid = transpose(new_grid)
+    return new_grid, changed
+
+def move_down(grid):
+    new_grid = transpose(grid)
+    new_grid, changed = move_right(new_grid)
+    new_grid = transpose(new_grid)
+    return new_grid, changed
 
 
